@@ -7,7 +7,6 @@
 ;; Keywords: yeoman node
 ;; Created: 02 Dec 2012
 ;; Version: 0.1
-;; Package-Requires: ((inf-ruby "2.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
