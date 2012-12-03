@@ -56,7 +56,6 @@
 
 ;;; Code:
 
-
 ;;;###autoload
 (defun yeoman-search ()
   "Search for a given package."
@@ -64,8 +63,22 @@
   (let ((package-name
          (read-from-minibuffer "Package name: ")))
   (let ((search-cmd
-        (format "yeoman search %s" package-name)))
-    (yeoman-command search-cmd))))
+         (format "yeoman search %s" package-name)))
+  (if (string-match package-name "")
+      (message "No package name provided.")
+    (yeoman-command search-cmd)))))
+
+(defun* yeoman-locate-gruntfile (&optional (dir default-directory))
+  (let ((has-gruntfile (directory-files dir nil "^Gruntfile$"))
+        (is-root (equal dir "/")))
+    (cond
+     (has-gruntfile dir)
+     (is-root
+      (print (format
+              "No Gruntfile found in either %s or any parent directory!"
+              default-directory))
+      nil)
+     ((yeoman-locate-gruntfile (expand-file-name ".." dir))))))
 
 (defun yeoman-command (cmd)
   "Run cmd in an async buffer."
